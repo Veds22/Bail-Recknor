@@ -43,16 +43,9 @@ def preprocessing_pipeline(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     
     # ========== 1. ONE-HOT ENCODING ==========
-    #ohe_columns = joblib.load("artefacts/ohe_columns.pkl")
-    
-    # CRITICAL FIX: Remove duplicates from saved OHE columns
-    #ohe_columns_unique = list(dict.fromkeys(ohe_columns))
     
     ohe_cols = ['bail_type', 'crime_type', 'region', 'accused_gender', 'prior_cases']
     df_ohe = pd.get_dummies(df[ohe_cols], drop_first=True, prefix=ohe_cols)
-    
-    # Reindex with deduplicated columns
-    #df_ohe = df_ohe.reindex(columns=ohe_columns_unique, fill_value=0)
     
     # Drop original categorical columns
     df = df.drop(columns=ohe_cols)
